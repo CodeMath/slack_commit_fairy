@@ -23,7 +23,7 @@ def lambda_handler(event, context):
 
     # Graphql query 엑세스 값
     data = {
-        "query": "query{user(login: \":Github 사용자명:\") { repositories(last: 100) { totalCount nodes { name defaultBranchRef { target { ...on Commit {history(since: \"" + years + "-" + months + "-" + days + "T00:00:00+00:00\") { totalCount}}}}}}}}"
+        "query": "query{user(login: \":Github 사용자명:\") { repositories(last: 100) { totalCount nodes { name defaultBranchRef { target { ...on Commit {history(since: \"" + years + "-" + months + "-" + days + "T09:00:00+00:00\") { totalCount}}}}}}}}"
     }
 
     git_req = requests.post(git_url, data=json.dumps(data), headers=headers)
