@@ -29,13 +29,11 @@ def lambda_handler(event, context):
     git_req = requests.post(git_url, data=json.dumps(data), headers=headers)
     git_data = git_req.json()
 
-    # 커밋 했을까?
-    commitTrue = False
+    # 커밋 수 확인
+    count = 0
     for each in git_data["data"]["user"]["repositories"]["nodes"]:
-        # 커밋 1개 이상했다면 True
-        if each["defaultBranchRef"]["target"]["history"]["totalCount"] != 0:
-            commitTrue = True
-            break
+            if each['defaultBranchRef'] is not None:
+                count = count + each['defaultBranchRef']['target']['history']['totalCount']
 
 
     # 안했다면.... 랜덤 초이스
@@ -49,8 +47,8 @@ def lambda_handler(event, context):
         "크아ㅏㅏㅏㅏㅏㅏㅏ 커밋해라ㅏㅏㅏㅏ"
     ]
 
-    if commitTrue:
-        data = {"text": "오늘도 커밋을 했구나! 닝갠아 훗"}
+    if count > 0:
+        data = {"text": f"오늘도 커밋을 {count}개나 했구나! 닝갠아 훗"}
     else:
         data = {"text": random.choice(commitList)}
 
